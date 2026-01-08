@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mike & Val's 2026 Ride</title>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-sA+e2atB3ZbsI2ko6MnxDRbugzuDUFcAUOFfEw9q1n8="
+    crossorigin=""
+  >
+  <style>
+    :root {
+      --bg: linear-gradient(135deg, #0b3b57, #0f766e);
+      --card: #0f1f2a;
+      --accent: #f4a261;
+      --accent-2: #2dd4bf;
+      --text: #e9f1f5;
+      --muted: #a8c1cd;
+      --shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+      --radius: 16px;
+      --gap: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 32px 18px 60px;
+    }
+
+    header {
+      width: min(1200px, 100%);
+      text-align: center;
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+      padding: 24px;
+      border-radius: 18px;
+      background: radial-gradient(circle at 20% 20%, rgba(45, 212, 191, 0.12), transparent 30%), radial-gradient(circle at 80% 0%, rgba(244, 162, 97, 0.12), transparent 35%), rgba(10, 23, 32, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: var(--shadow);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      letter-spacing: 0.04em;
+      font-size: clamp(28px, 3vw, 42px);
+    }
+
+    .subtitle {
+      color: var(--muted);
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .subtitle.names {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    nav {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: var(--gap);
+    }
+
+    .tab {
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius);
+      background: rgba(8, 19, 27, 0.55);
+      color: var(--text);
+      padding: 12px 16px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+    }
+
+    .tab.active {
+      border-color: var(--accent);
+      box-shadow: var(--shadow);
+      transform: translateY(-2px);
+      background: rgba(15, 31, 42, 0.85);
+    }
+
+    main {
+      width: min(1200px, 100%);
+      margin-top: 22px;
+    }
+
+    section {
+      display: none;
+      background: rgba(10, 23, 32, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      animation: fadeIn 240ms ease;
+    }
+
+    section.active {
+      display: block;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: var(--gap);
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    }
+
+    .card-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: transform 160ms ease, box-shadow 160ms ease;
+    }
+
+    .card-link:hover .card {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+      border-color: rgba(244, 162, 97, 0.5);
+    }
+
+    .accent {
+      color: var(--accent);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(244, 162, 97, 0.18);
+      color: var(--accent);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      margin-bottom: 10px;
+    }
+
+    .donation-row {
+      display: grid;
+      grid-template-columns: 1fr 130px auto;
+      gap: 10px;
+      align-items: center;
+      margin-top: 12px;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .button {
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      color: #0d1d27;
+      background: var(--accent);
+      transition: transform 160ms ease, box-shadow 160ms ease;
+    }
+
+    .button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    .totals {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 16px;
+      color: var(--muted);
+    }
+
+    .badge {
+      background: rgba(45, 212, 191, 0.15);
+      color: var(--accent-2);
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(45, 212, 191, 0.3);
+      font-weight: 700;
+    }
+
+    .progress {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 999px;
+      overflow: hidden;
+      height: 12px;
+      margin: 10px 0 6px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .progress-fill,
+    .progress-fill-vertical {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      width: 0%;
+      transition: width 180ms ease;
+    }
+
+    .progress-vertical {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      min-width: 110px;
+    }
+
+    .progress-track-vertical {
+      width: 36px;
+      height: 280px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 14px;
+      border: 2px solid rgba(255, 255, 255, 0.18);
+      overflow: hidden;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    .progress-fill-vertical {
+      width: 100%;
+      height: 0%;
+      background: linear-gradient(180deg, var(--accent), var(--accent-2));
+      transition: height 180ms ease;
+    }
+
+    .progress-label {
+      color: var(--muted);
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      font-size: 13px;
+    }
+
+    .progress-title {
+      color: var(--text);
+      font-weight: 800;
+      font-size: 16px;
+      text-align: center;
+      width: 100%;
+      letter-spacing: 0.01em;
+    }
+
+    .progress-wrap {
+      margin: 10px 0 16px;
+    }
+
+    .donate-layout {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .donate-links {
+      list-style: none;
+      padding: 0;
+      margin: 12px 0 0;
+      display: grid;
+      gap: 10px;
+    }
+
+    .donate-links a {
+      color: var(--accent-2);
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .donate-links a:hover {
+      text-decoration: underline;
+    }
+
+    iframe {
+      width: 100%;
+      min-height: 360px;
+      border: none;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    video {
+      width: min(520px, 100%);
+      display: block;
+      margin: 0 auto;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      background: #000;
+    }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-top: 12px;
+    }
+
+    .video-grid video {
+      width: 100%;
+      max-width: none;
+      margin: 0;
+    }
+
+    .map-card {
+      background: var(--card);
+      padding: 18px;
+      border-radius: var(--radius);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: var(--shadow);
+    }
+
+    .photo-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .photo-row img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .route-photo {
+      width: 100%;
+      margin: 10px auto 0;
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      object-fit: cover;
+      max-height: 360px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 680px) {
+      nav { grid-template-columns: repeat(2, 1fr); }
+      .donation-row { grid-template-columns: 1fr; }
+    }
+
+    #route-map {
+      width: 100%;
+      height: 420px;
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.35), rgba(244, 162, 97, 0.35));
+      color: var(--text);
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      margin-bottom: 12px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+    }
+
+    .route-simplified {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px;
+      margin: 12px 0;
+      padding: 10px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .route-chip {
+      padding: 10px 12px;
+      background: rgba(244, 162, 97, 0.15);
+      color: var(--text);
+      border-radius: 12px;
+      border: 1px solid rgba(244, 162, 97, 0.3);
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .az-flag {
+      display: inline-block;
+      width: 22px;
+      height: 14px;
+      border-radius: 3px;
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 14'><rect width='22' height='14' fill='%23004994'/><g><polygon points='0,0 3.7,0 11,7' fill='%23d62828'/><polygon points='3.7,0 7.4,0 11,7' fill='%23f4a300'/><polygon points='7.4,0 11.1,0 11,7' fill='%23d62828'/><polygon points='11.1,0 14.8,0 11,7' fill='%23f4a300'/><polygon points='14.8,0 18.5,0 11,7' fill'%23d62828'/><polygon points='18.5,0 22,0 11,7' fill='%23f4a300'/></g><polygon points='11,4 12.1,6.5 14.8,6.5 12.6,8.2 13.5,10.9 11,9.2 8.5,10.9 9.4,8.2 7.2,6.5 9.9,6.5' fill='%23b87333'/></svg>") center/cover no-repeat;
+      vertical-align: middle;
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.15);
+    }
+
+    .route-footer {
+      width: min(1200px, 100%);
+      margin: 28px auto 0;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: var(--shadow);
+      border-radius: 18px;
+      overflow: hidden;
+      background: radial-gradient(circle at 20% 20%, rgba(45, 212, 191, 0.08), transparent 40%), radial-gradient(circle at 80% 80%, rgba(244, 162, 97, 0.08), transparent 40%);
+    }
+
+    .route-footer img {
+      width: 100%;
+      max-height: 360px;
+      object-fit: cover;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="hero-badge" style="font-size: 28px;">🇺🇸Tour de America 🇺🇸</div>
+    <p class="subtitle names">Michael Woodward & Valerie Torrez</p>
+    <p class="subtitle">Honoring loved ones, celebrating resilience, and raising support.</p>
+    <nav id="nav">
+      <button class="tab active" data-target="about">About Us</button>
+      <button class="tab" data-target="donate">Donate</button>
+      <button class="tab" data-target="youtube">Our training updates</button>
+      <button class="tab" data-target="maps">Track Us on the Maps Page</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="about" class="active">
+      <div class="grid">
+        <div class="card">
+          <div class="pill">May 2026 • 2,200+ miles</div>
+          <h2 class="accent">Why we're riding</h2>
+          <p>Mike and Valerie are riding a route that playfully mimics (and is much better than) the Tour de France.</p>
+          <p>A grassroots bike ride across beautiful landscapes in the wild American west to raise money for causes we care about. </p>
+          <p>Follow along, donate, and tune into our live tracker as we pedal across the route.</p>
+          <!-- <p>This is Mike and Val's Tour de America. We met in Flagstaff, AZ in May 2025, fell in love, and realized we both love riding and adventuring together.</p> -->
+          <!-- <p>We're rolling out in May 2026 to raise money for causes we care about and to celebrate the joy of being on the road. For Val, this pilgrimage began two years ago when her dad and grandma passed on the same day; each mile honors them and the family that keeps us moving.</p> -->
+          <!-- <p>Follow along for stories from the road, route highlights, and the people we meet while pushing pedals and purpose.</p> -->
+        </div>
+        <a class="card-link" href="route.html">
+          <div class="card">
+            <h3 class="accent">The route</h3>
+            <ul>
+              <li>Start: Northern New Mexico in May 2026.</li>
+              <li>Climb into Colorado, then north through Wyoming and up to Montana's big skies.</li>
+              <li>Cut down through Idaho and Utah, rolling red rock and river valleys.</li>
+              <li>Finish: Cottonwood, Arizona—celebrating together.</li>
+              <li>Ride plan: 21 days • 2,236 miles of shared miles and memories.</li>
+            </ul>
+            <p class="muted">Ride tracker and meetups will be posted before launch. Click to see the full route photo.</p>
+          </div>
+        </a>
+        <a class="card-link" href="about_us.html">
+          <div class="card">
+            <h3 class="accent">About us</h3>
+            <p class="muted">A couple snapshots to put faces to the names before we roll out. Click to read more.</p>
+            <div class="photo-row">
+              <img src="photo2.jpg" alt="Mike and Val all dressed up">
+              <img src="photo7.jpg" alt="Mike and Val 3">
+            </div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <section id="donate">
+      <div class="card">
+        <div class="pill">Support the ride</div>
+        <h2 class="accent">Donate to the causes</h2>
+        <div class="donate-layout">
+          <div>
+            <p>Every dollar is split across three places dear to us. Explore the foundations below to give directly.</p>
+            <ul class="donate-links">
+              <li><a href="https://www.norassparkleofloveproject.com/" target="_blank" rel="noopener">Nora's Sparkle of Love</a></li>
+              <li><a href="https://lhcgroup.com/locations/northern-arizona-hospice/?utm_source=GMB&utm_campaign=Google_Local_Listing&utm_medium=referral&utm_content=Northern_Arizona_Hospice_Flagstaff_AZ_86001" target="_blank" rel="noopener">Northern Arizona Hospice</a></li>
+              <li><a href="https://pancan.org/" target="_blank" rel="noopener">Pancreatic Cancer Foundation</a></li>
+              <p>Email your reciept to our email address here.</p>
+            </ul>
+          </div>
+          <div class="progress-vertical">
+            <div class="progress-title">Total donations so far</div>
+            <div class="progress-track-vertical">
+              <div class="progress-fill-vertical" id="official-progress"></div>
+            </div>
+            <div class="progress-label" id="official-progress-label">Raised: $0 of $0</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="youtube">
+      <div class="card">
+        <div class="pill">Ride journal</div>
+        <h2 class="accent">Watch the journey</h2>
+        <p>We'll post daily ride recaps, roadside interviews, and gear tips. Subscribe and drop comments to keep us fueled.</p>
+      </div>
+      <div class="card" style="margin-top: 12px;">
+        <h3 class="accent">Latest clips</h3>
+        <p class="muted">A quick look at our training sessions before the big departure.</p>
+        <div class="video-grid">
+          <!-- <video controls preload="metadata">
+            <source src="train_begin.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video> -->
+          <video controls preload="metadata">
+            <source src="train2.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <video controls preload="metadata">
+            <source src="train3.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+          <!-- <video controls preload="metadata">
+            <source src="train_begin.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video> -->
+        </div>
+      </div>
+
+      <div class="card" style="margin-top: 14px;">
+        <h3 class="accent">Check out our journey!</h3>
+        <p class="muted">Watch the highlights on TikTok.</p>
+        <p><a href="https://www.tiktok.com/@tourdeamerica" target="_blank" rel="noopener" class="accent">tiktok.com/@tourdeamerica</a></p>
+        <p class="muted">Check out our rides on strava.</p>
+        <p><a href="https://www.tiktok.com/@tourdeamerica" target="_blank" rel="noopener" class="accent">tiktok.com/@tourdeamerica</a></p>
+      </div>
+    </section>
+
+    <section id="maps">
+      <div class="map-card">
+        <div class="pill">Live map</div>
+        <h2 class="accent">Track us on the maps page</h2>
+        <p>Tap a stop to open it in Google Maps. The red dot shows our latest check-in (simulated locally here).</p>
+        <div id="route-map"></div>
+      </div>
+    </section>
+  </main>
+
+  <div class="route-footer">
+    <img src="photo4.jpg" alt="Route scenery">
+  </div>
+
+  <script>
+    const tabs = document.querySelectorAll(".tab");
+    const sections = document.querySelectorAll("section");
+    const officialRaised = 15000; // set this to your official total
+    const officialGoal = 26000; // set this to your official goal
+    const format = (amt) => `$${amt.toLocaleString("en-US")}`;
+
+    function setActive(targetId) {
+      tabs.forEach((tab) => tab.classList.toggle("active", tab.dataset.target === targetId));
+      sections.forEach((sec) => sec.classList.toggle("active", sec.id === targetId));
+    }
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => setActive(tab.dataset.target));
+    });
+
+    function updateOfficialProgress() {
+      const fill = document.getElementById("official-progress");
+      const label = document.getElementById("official-progress-label");
+      const percent = Math.min(100, Math.round((officialRaised / officialGoal) * 100 || 0));
+      if (fill) {
+        fill.style.height = `${percent}%`;
+        fill.style.width = "100%";
+      }
+      if (label) label.textContent = `Raised: ${format(officialRaised)} of ${format(officialGoal)} (${percent}%)`;
+    }
+
+    updateOfficialProgress();
+
+    // Map setup with Leaflet (requires internet to load tiles)
+    (function initMap() {
+      const mapEl = document.getElementById("route-map");
+      if (!mapEl) return;
+
+      const stops = [
+        { name: "Los Alamos, NM", coords: [35.8800, -106.3031] },
+        { name: "Alamosa, CO", coords: [37.4694, -105.8700] },
+        { name: "Leadville, CO", coords: [39.2508, -106.2925] },
+        { name: "Estes Park, CO", coords: [40.3772, -105.5217] },
+        { name: "Saratoga, WY", coords: [41.4547, -106.8067] },
+        { name: "Rawlins, WY", coords: [41.7911, -107.2387] },
+        { name: "Lander, WY", coords: [42.8330, -108.7307] },
+        { name: "Thermopolis, WY", coords: [43.6464, -108.2131] },
+        { name: "Bozeman, MT", coords: [45.6770, -111.0429] },
+        { name: "Driggs, ID", coords: [43.7233, -111.1116] },
+        { name: "Salt Lake City, UT", coords: [40.7608, -111.8910] },
+        { name: "Flagstaff, AZ", coords: [35.1983, -111.6513] },
+        { name: "Cottonwood, AZ", coords: [34.7392, -112.0099] },
+      ];
+
+      const map = L.map("route-map", { scrollWheelZoom: true, zoomControl: true }).setView([40.3, -108.5], 6);
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        attribution: "&copy; OpenStreetMap contributors"
+      }).addTo(map);
+
+      const poly = L.polyline(stops.map((s) => s.coords), { color: "#f4a261", weight: 4, opacity: 0.9 }).addTo(map);
+      map.fitBounds(poly.getBounds(), { padding: [20, 20] });
+
+      stops.forEach((stop) => {
+        const gmaps = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(stop.name)}`;
+        L.marker(stop.coords)
+          .addTo(map)
+          .bindPopup(`<strong>${stop.name}</strong><br><a href="${gmaps}" target="_blank" rel="noopener">Open in Google Maps</a>`);
+      });
+
+      // Simulated live tracking dot moving along the route
+      const tracker = L.circleMarker(stops[0].coords, {
+        radius: 7,
+        color: "#ff4d4d",
+        fillColor: "#ff4d4d",
+        fillOpacity: 0.9,
+        weight: 2,
+      }).addTo(map);
+
+      let tIndex = 0;
+      setInterval(() => {
+        const next = stops[tIndex % stops.length].coords;
+        tracker.setLatLng(next);
+        tIndex += 1;
+      }, 3500);
+    })();
+  </script>
+  <script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-o9N1j7kL2bXt3xX3n1xdjF6G8JQp1eQbFvY9UUYGe1k="
+    crossorigin=""
+  ></script>
+</body>
+</html>

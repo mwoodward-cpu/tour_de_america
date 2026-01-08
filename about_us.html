@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us • Tour de America</title>
+  <style>
+    :root {
+      --bg: linear-gradient(135deg, #0b3b57, #0f766e);
+      --card: #0f1f2a;
+      --accent: #f4a261;
+      --text: #e9f1f5;
+      --muted: #a8c1cd;
+      --radius: 16px;
+      --shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
+      padding: 32px 18px 60px;
+      display: flex;
+      justify-content: center;
+    }
+    .page {
+      width: min(1000px, 100%);
+    }
+    header {
+      text-align: center;
+      margin-bottom: 22px;
+    }
+    h1 { margin: 0 0 8px; letter-spacing: 0.04em; }
+    .subtitle { color: var(--muted); margin: 0; }
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 20px;
+      border: 1px solid rgba(255,255,255,0.08);
+      box-shadow: var(--shadow);
+    }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(244, 162, 97, 0.18);
+      color: var(--accent);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      margin-bottom: 10px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+      margin-top: 14px;
+    }
+    img {
+      width: 100%;
+      border-radius: 12px;
+      object-fit: cover;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    a { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="pill">Tour de America</div>
+      <h1>Michael Woodward & Valerie Torrez</h1>
+      <p class="subtitle">Our story, our why, and what keeps us pedaling.</p>
+    </header>
+    <div class="card">
+      <h2 class="accent">How we met</h2>
+      <p>We crossed paths in Flagstaff in May 2025, instantly connecting over mountain air, long rides, and the idea of an adventure bigger than ourselves.</p>
+      <h2 class="accent">Why we ride</h2>
+      <p>This Tour de America is about honoring family, celebrating resilience, and sharing the joy of the road. Each mile nods to the people we miss and the community we’re grateful for.</p>
+      <h2 class="accent">What to expect</h2>
+      <ul>
+        <li>Daily check-ins from the road: mileage, highlights, and lessons learned.</li>
+        <li>Ways to join us for a segment or send a note of encouragement.</li>
+        <li>Direct links to the causes we’re riding for.</li>
+      </ul>
+      <div class="grid">
+        <img src="photo2.jpg" alt="Mike and Val all dressed up">
+        <img src="photo7.jpg" alt="Mike and Val riding together">
+      </div>
+      <p style="margin-top: 14px;"><a href="our_website.html">← Back to home</a></p>
+    </div>
+  </div>
+</body>
+</html>
