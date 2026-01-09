@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tour de America | What & Why</title>
+  <style>
+    :root {
+      --bg: linear-gradient(135deg, #0b3b57, #0f766e);
+      --card: #0f1f2a;
+      --accent: #f4a261;
+      --accent-2: #2dd4bf;
+      --text: #e9f1f5;
+      --muted: #a8c1cd;
+      --shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Avenir Next", "Segoe UI", "Helvetica Neue", sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 18px 60px;
+    }
+
+    .page {
+      width: min(960px, 100%);
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 20px;
+      padding: 22px;
+      border-radius: 18px;
+      background: radial-gradient(circle at 20% 20%, rgba(45, 212, 191, 0.12), transparent 30%),
+        radial-gradient(circle at 80% 0%, rgba(244, 162, 97, 0.12), transparent 35%),
+        rgba(10, 23, 32, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.35), rgba(244, 162, 97, 0.35));
+      color: var(--text);
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow);
+    }
+    .hero-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .countdown {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(8, 19, 27, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: 0.02em;
+    }
+    .countdown-label {
+      color: var(--muted);
+    }
+
+    h1 {
+      margin: 0 0 8px;
+      letter-spacing: 0.04em;
+      font-size: clamp(28px, 3vw, 40px);
+    }
+
+    .subtitle {
+      color: var(--muted);
+      margin: 0;
+      font-size: 16px;
+    }
+    .subtitle.names {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .card {
+      background: rgba(10, 23, 32, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    h2 {
+      color: var(--accent);
+      margin-top: 0;
+    }
+
+    p {
+      line-height: 1.6;
+    }
+
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .why-card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    a {
+      color: var(--accent-2);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="hero-stack">
+        <div class="hero-badge" style="font-size: 28px;">🇺🇸Tour de America 🇺🇸</div>
+        <div class="countdown" aria-live="polite">
+          <span class="countdown-label">Countdown:</span>
+          <span id="countdown-timer">Calculating...</span>
+        </div>
+      </div>
+      <p class="subtitle names">Michael & Valerie</p>
+      <p class="subtitle">Honoring those we’ve lost, the resilience they taught us, and the determination to ride on.</p>
+    </header>
+
+    <div class="card">
+      <h2>What is Tour de America?</h2>
+      <p>For those of you who have been following Valerie. Two years ago, she lost her nana and her dad — shockingly, on the same day.</p>
+      <p>She remembers every detail of that day. Not because she wants to, but because it felt like the cruelest joke life could play. A moment so sudden and disorienting that reality itself felt negotiable.</p>
+      <p>In the blur that followed — somewhere between this can’t be happening and this is happening — something inside her shifted. Not toward answers, but toward movement.</p>
+      <p>Grief has a way of finding strange doorways. For her, it came through her dad’s old iPod. A purple Nano. Headphones in. Lying in bed, crying, letting the music play because silence was worse.</p>
+      <p>Linkin Park came on.</p>
+      <p>“Wishing I had strength to stand.”</p>
+      <p>“This is not what I had planned.”</p>
+      <p>“It’s out of my control.”</p>
+      <p>The next song shuffled in: Ozzy Osbourne’s Road to Nowhere.</p>
+      <p>“Live for today and not tomorrow.”</p>
+      <p>The next morning, she did something simple, almost mindless. She got on the spin bike that sat quietly in the living room and listened to the entire albums. Then again. And again.</p>
+      <p>Somewhere between the pedals turning and the music looping, the thought arrived — not as a plan, but as a knowing.</p>
+      <p>She knew what she needed to do. She needed to ride.</p>
+      <p>Not to escape grief, but to carry it. To do something her dad would’ve loved. To move her body across distance the way grief had moved through her life — slowly, painfully, and forward.</p>
+      <p>Arizona to California. Four hundred and twenty miles.</p>
+      <p>She told her grandpa. He told her no.</p>
+      <p>She argued with herself. You can’t do this. Do it anyway. You should wait. You won’t ever feel ready.</p>
+      <p>And eventually, she rode.</p>
+      <p>The Tour de America is not the beginning of that story. It’s what happens when you keep listening to the voice that told you to move — and you answer it again.</p>
+
+      <!-- <h2>Why we ride</h2>
+      <p>
+        We ride to honor loved ones we have lost, to celebrate the resilience they taught us, and to
+        raise support for causes that kept us going. Every mile is a tribute and a reminder that we can
+        keep moving forward together.
+      </p> -->
+
+      <!-- <div class="why-grid">
+        <div class="why-card">
+          <strong>Honor</strong>
+          <p>We dedicate each day of the ride to the people who shaped our story.</p>
+        </div>
+        <div class="why-card">
+          <strong>Community</strong>
+          <p>We are raising funds for organizations that care for families in hard moments.</p>
+        </div>
+        <div class="why-card">
+          <strong>Adventure</strong>
+          <p>We believe the road has a way of healing and connecting people across distance.</p>
+        </div>
+      </div> -->
+
+      <p style="margin-top: 18px;"><a href="index.html">&#8592; Back to home</a></p>
+    </div>
+  </div>
+  <script>
+    const launchDate = new Date("2026-05-01T00:00:00");
+
+    function updateCountdown() {
+      const output = document.getElementById("countdown-timer");
+      if (!output) return;
+      const now = new Date();
+      const diff = launchDate - now;
+      if (diff <= 0) {
+        output.textContent = "We're rolling!";
+        return;
+      }
+      const totalSeconds = Math.floor(diff / 1000);
+      const days = Math.floor(totalSeconds / 86400);
+      const hours = Math.floor((totalSeconds % 86400) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+      output.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
+</body>
+</html>

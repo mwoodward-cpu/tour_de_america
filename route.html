@@ -32,8 +32,71 @@
       text-align: center;
       margin-bottom: 22px;
     }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(45, 212, 191, 0.35), rgba(244, 162, 97, 0.35));
+      color: var(--text);
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      margin-bottom: 12px;
+      box-shadow: var(--shadow);
+    }
+    .hero-stack {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+    .countdown {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(8, 19, 27, 0.65);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: 0.02em;
+    }
+    .countdown-label {
+      color: var(--muted);
+    }
     h1 { margin: 0 0 8px; letter-spacing: 0.04em; }
     .subtitle { color: var(--muted); margin: 0; }
+    .subtitle.names {
+      font-size: 18px;
+      font-weight: 700;
+    }
+    nav {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+    }
+    .tab {
+      text-decoration: none;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius);
+      background: rgba(8, 19, 27, 0.55);
+      color: var(--text);
+      padding: 12px 16px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+    }
+    .tab:hover {
+      border-color: var(--accent);
+      box-shadow: var(--shadow);
+      transform: translateY(-2px);
+      background: rgba(15, 31, 42, 0.85);
+    }
     .card {
       background: var(--card);
       border-radius: var(--radius);
@@ -62,8 +125,21 @@
 <body>
   <div class="page">
     <header>
-      <h1>Our Route</h1>
-      <p class="subtitle">21 days • 2,236 miles • May 2026</p>
+      <div class="hero-stack">
+        <div class="hero-badge" style="font-size: 28px;">🇺🇸Tour de America 🇺🇸</div>
+        <div class="countdown" aria-live="polite">
+          <span class="countdown-label">Countdown:</span>
+          <span id="countdown-timer">Calculating...</span>
+        </div>
+      </div>
+      <p class="subtitle names">Michael & Valerie</p>
+      <p class="subtitle">Honoring those we’ve lost, the resilience they taught us, and the determination to ride on.</p>
+      <nav id="nav">
+        <a class="tab" href="index.html#about">About Us</a>
+        <a class="tab" href="index.html#donate">Donate</a>
+        <a class="tab" href="index.html#youtube">Our training updates</a>
+        <a class="tab" href="index.html#maps">Track Us on the Maps Page</a>
+      </nav>
     </header>
     <div class="card">
       <h2 class="accent">Route overview</h2>
@@ -80,5 +156,28 @@
       <p style="margin-top: 14px;"><a href="our_website.html">← Back to home</a></p>
     </div>
   </div>
+  <script>
+    const launchDate = new Date("2026-05-01T00:00:00");
+
+    function updateCountdown() {
+      const output = document.getElementById("countdown-timer");
+      if (!output) return;
+      const now = new Date();
+      const diff = launchDate - now;
+      if (diff <= 0) {
+        output.textContent = "We're rolling!";
+        return;
+      }
+      const totalSeconds = Math.floor(diff / 1000);
+      const days = Math.floor(totalSeconds / 86400);
+      const hours = Math.floor((totalSeconds % 86400) / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+      output.textContent = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+  </script>
 </body>
 </html>
