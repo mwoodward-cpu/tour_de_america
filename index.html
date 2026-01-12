@@ -309,6 +309,36 @@
       text-decoration: underline;
     }
 
+    .thanks-wrap {
+      margin-top: 12px;
+      color: var(--muted);
+    }
+
+    .thanks-title {
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .thanks-list {
+      column-count: 2;
+      column-gap: 18px;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .thanks-list span {
+      display: block;
+      break-inside: avoid;
+    }
+
+    @media (max-width: 680px) {
+      .thanks-list {
+        column-count: 1;
+      }
+    }
+
+
     iframe {
       width: 100%;
       min-height: 360px;
@@ -479,6 +509,7 @@
       object-fit: cover;
       display: block;
     }
+
   </style>
 </head>
 <body>
@@ -494,9 +525,9 @@
     <p class="subtitle">Honoring those we’ve lost, the resilience they taught us, and the determination to ride on.</p>
     <nav id="nav">
       <button class="tab active" data-target="about">About Us</button>
-      <button class="tab" data-target="donate">Donate</button>
-      <button class="tab" data-target="youtube">Our training updates</button>
-      <button class="tab" data-target="maps">Track Us on the Maps Page</button>
+      <button class="tab" data-target="donate">Get Involved</button>
+      <button class="tab" data-target="youtube">Our Training</button>
+      <button class="tab" data-target="maps">Track Us</button>
     </nav>
   </header>
 
@@ -547,8 +578,8 @@
 
     <section id="donate">
       <div class="card">
-        <div class="pill">Support the ride</div>
-        <h2 class="accent">Donate to the causes</h2>
+        <!-- <div class="pill">Get involved</div> -->
+        <h2 class="accent">Get involved</h2>
         <div class="donate-layout">
           <div>
             <p>Every dollar is split across three places dear to us. Explore the foundations below to give directly.</p>
@@ -558,6 +589,73 @@
               <li><a href="https://pancan.org/" target="_blank" rel="noopener">Pancreatic Cancer Foundation</a></li>
             </ul>
             <p>Email your receipt to our email address here.</p>
+            <div class="thanks-wrap">
+              <div class="thanks-title">Special thanks</div>
+              <div class="thanks-list">
+                <span>Amy & Eddie Coghlan</span>
+                <span>Angie Wood</span>
+                <span>Anthony Tedesco</span>
+                <span>Aunt Cherie & Uncle Danny</span>
+                <span>Aunt Denise & Uncle Skip</span>
+                <span>Aunt Mary</span>
+                <span>Aunt Paulette & Big Jim</span>
+                <span>Barb Huber</span>
+                <span>Chelsey O’Boyle</span>
+                <span>Cherie Hanks</span>
+                <span>Cherie Krause</span>
+                <span>Christopher Moberg</span>
+                <span>Climb It High Tree Experts</span>
+                <span>Ciara Melendez</span>
+                <span>Cindy Espolt</span>
+                <span>Cory Vandemoer</span>
+                <span>Debbie</span>
+                <span>Don & Kristine</span>
+                <span>Eric Zeichner</span>
+                <span>Grandma Dolores</span>
+                <span>Grampa</span>
+                <span>Heisley</span>
+                <span>Hess</span>
+                <span>Jackie Del Monte</span>
+                <span>Jesse Parmarter</span>
+                <span>Jim & Diane Graceffa</span>
+                <span>Kate Bare</span>
+                <span>Kay Campbell</span>
+                <span>Kennedy Fam</span>
+                <span>Kim Basnight</span>
+                <span>Kim Crabtree</span>
+                <span>Kim Moore</span>
+                <span>Kleinhaus</span>
+                <span>Linda Lovan</span>
+                <span>Marsh</span>
+                <span>Mary Torrez</span>
+                <span>Mike & Michelle</span>
+                <span>Nick Rodriguez</span>
+                <span>Nicole Lamb</span>
+                <span>Pabon</span>
+                <span>Paul Baranik</span>
+                <span>Polly Ann (Mom)</span>
+                <span>Raemy & Tracey Winton</span>
+                <span>Ray Lynn & Phil Busby</span>
+                <span>Richard Woodward</span>
+                <span>Rick Wojciechowski</span>
+                <span>Sam Collins</span>
+                <span>Sam Parmarter</span>
+                <span>Sandi Cain</span>
+                <span>Shillington</span>
+                <span>Single Track Bikes</span>
+                <span>Swenson</span>
+                <span>Tad Alexander</span>
+                <span>Teri Leibforth</span>
+                <span>Theresa LaPera</span>
+                <span>Tom & Michelle Nager</span>
+                <span>Uncle Chic</span>
+                <span>Uncle Gerry & Aunt Francis</span>
+                <span>Uncle Greg & Sarah</span>
+                <span>Uncle Phil & Anne Marie</span>
+                <span>Uncle Tommy & Sophie</span>
+                <span>Vanessa Flemming</span>
+              </div>
+            </div>
           </div>
           <div class="progress-vertical">
             <div class="progress-title">Total donations so far</div>
@@ -626,7 +724,7 @@
     const tabs = document.querySelectorAll(".tab");
     const sections = document.querySelectorAll("section");
     const officialRaised = 15000; // set this to your official total
-    const officialGoal = 26000; // set this to your official goal
+    const officialGoal = 20000; // set this to your official goal
     const launchDate = new Date("2026-05-01T00:00:00");
     const format = (amt) => `$${amt.toLocaleString("en-US")}`;
 
