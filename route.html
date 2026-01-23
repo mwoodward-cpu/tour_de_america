@@ -104,6 +104,111 @@
     }
     a { color: var(--accent); }
 
+    .route-map {
+      margin: 16px 0 20px;
+      padding: 16px;
+      border-radius: 16px;
+      background: rgba(8, 19, 27, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .map-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .map-caption {
+      color: var(--muted);
+      margin: 0;
+      font-size: 13px;
+    }
+
+    .map-svg {
+      width: 100%;
+      height: auto;
+      display: block;
+      margin-top: 12px;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #0c2836;
+    }
+
+    .map-grid line {
+      stroke: rgba(255, 255, 255, 0.06);
+      stroke-width: 1;
+    }
+
+    .map-path-outline {
+      fill: none;
+      stroke: rgba(8, 19, 27, 0.7);
+      stroke-width: 10;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .map-path {
+      fill: none;
+      stroke: url(#routeGradient);
+      stroke-width: 4;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .map-marker circle {
+      fill: var(--accent);
+      stroke: #0b1b24;
+      stroke-width: 2;
+    }
+
+    .map-marker.rest circle {
+      fill: #2dd4bf;
+    }
+
+    .map-marker text {
+      fill: #0b1b24;
+      font-weight: 800;
+      font-size: 12px;
+      text-anchor: middle;
+      dominant-baseline: middle;
+    }
+
+    .map-city {
+      font-size: 12px;
+      fill: var(--text);
+      font-weight: 700;
+    }
+
+    .map-legend {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      margin-top: 10px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .legend-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 1px solid rgba(0, 0, 0, 0.35);
+    }
+
+    .legend-dot.rest {
+      background: #2dd4bf;
+    }
+
     .stage-list {
       list-style: none;
       padding: 0;
@@ -186,6 +291,16 @@
     .elevation-area {
       fill: rgba(45, 212, 191, 0.12);
     }
+
+    @media (max-width: 700px) {
+      .map-marker text {
+        font-size: 10px;
+      }
+
+      .map-city {
+        font-size: 11px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -203,6 +318,70 @@
     </header>
     <div class="card">
       <h2 class="accent">Daily stages</h2>
+      <figure class="route-map">
+        <div class="map-header">
+          <h3 class="accent">Route map</h3>
+          <p class="map-caption">Stylized overview of daily legs with day labels.</p>
+        </div>
+        <svg class="map-svg" viewBox="0 0 1000 520" role="img" aria-label="Stylized route map with day labels for each leg">
+          <defs>
+            <linearGradient id="mapGradient" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0%" stop-color="#0b3146"/>
+              <stop offset="100%" stop-color="#0b4a42"/>
+            </linearGradient>
+            <linearGradient id="routeGradient" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0%" stop-color="#f4a261"/>
+              <stop offset="100%" stop-color="#2dd4bf"/>
+            </linearGradient>
+          </defs>
+          <rect width="1000" height="520" fill="url(#mapGradient)"/>
+          <g class="map-grid">
+            <line x1="80" y1="80" x2="920" y2="80"/>
+            <line x1="80" y1="160" x2="920" y2="160"/>
+            <line x1="80" y1="240" x2="920" y2="240"/>
+            <line x1="80" y1="320" x2="920" y2="320"/>
+            <line x1="80" y1="400" x2="920" y2="400"/>
+            <line x1="160" y1="60" x2="160" y2="460"/>
+            <line x1="320" y1="60" x2="320" y2="460"/>
+            <line x1="480" y1="60" x2="480" y2="460"/>
+            <line x1="640" y1="60" x2="640" y2="460"/>
+            <line x1="800" y1="60" x2="800" y2="460"/>
+          </g>
+          <path class="map-path-outline" d="M120 420 L160 380 L210 340 L260 300 L310 260 L360 220 L420 200 L470 180 L520 170 L560 160 L620 140 L680 130 L720 170 L740 220 L720 270 L700 310 L680 350 L650 380 L620 410 L590 440 L560 460 L520 480 L470 500"/>
+          <path class="map-path" d="M120 420 L160 380 L210 340 L260 300 L310 260 L360 220 L420 200 L470 180 L520 170 L560 160 L620 140 L680 130 L720 170 L740 220 L720 270 L700 310 L680 350 L650 380 L620 410 L590 440 L560 460 L520 480 L470 500"/>
+
+          <text class="map-city" x="90" y="440">Start: White Rock, NM</text>
+          <text class="map-city" x="500" y="512">Finish: Clarkdale, AZ</text>
+
+          <g class="map-marker" transform="translate(120 420)"><circle r="12"/><text y="1">1</text></g>
+          <g class="map-marker" transform="translate(160 380)"><circle r="12"/><text y="1">2</text></g>
+          <g class="map-marker" transform="translate(210 340)"><circle r="12"/><text y="1">3</text></g>
+          <g class="map-marker" transform="translate(260 300)"><circle r="12"/><text y="1">4</text></g>
+          <g class="map-marker" transform="translate(310 260)"><circle r="12"/><text y="1">5</text></g>
+          <g class="map-marker" transform="translate(360 220)"><circle r="12"/><text y="1">6</text></g>
+          <g class="map-marker" transform="translate(420 200)"><circle r="12"/><text y="1">7</text></g>
+          <g class="map-marker rest" transform="translate(470 180)"><circle r="12"/><text y="1">8</text></g>
+          <g class="map-marker" transform="translate(520 170)"><circle r="12"/><text y="1">9</text></g>
+          <g class="map-marker" transform="translate(560 160)"><circle r="12"/><text y="1">10</text></g>
+          <g class="map-marker" transform="translate(620 140)"><circle r="12"/><text y="1">11</text></g>
+          <g class="map-marker" transform="translate(680 130)"><circle r="12"/><text y="1">12</text></g>
+          <g class="map-marker" transform="translate(720 170)"><circle r="12"/><text y="1">13</text></g>
+          <g class="map-marker" transform="translate(740 220)"><circle r="12"/><text y="1">14</text></g>
+          <g class="map-marker" transform="translate(720 270)"><circle r="12"/><text y="1">15</text></g>
+          <g class="map-marker rest" transform="translate(700 310)"><circle r="12"/><text y="1">16</text></g>
+          <g class="map-marker" transform="translate(680 350)"><circle r="12"/><text y="1">17</text></g>
+          <g class="map-marker" transform="translate(650 380)"><circle r="12"/><text y="1">18</text></g>
+          <g class="map-marker" transform="translate(620 410)"><circle r="12"/><text y="1">19</text></g>
+          <g class="map-marker" transform="translate(590 440)"><circle r="12"/><text y="1">20</text></g>
+          <g class="map-marker" transform="translate(560 460)"><circle r="12"/><text y="1">21</text></g>
+          <g class="map-marker" transform="translate(520 480)"><circle r="12"/><text y="1">22</text></g>
+          <g class="map-marker" transform="translate(470 500)"><circle r="12"/><text y="1">23</text></g>
+        </svg>
+        <div class="map-legend">
+          <span class="legend-item"><span class="legend-dot"></span>Ride day</span>
+          <span class="legend-item"><span class="legend-dot rest"></span>Rest day</span>
+        </div>
+      </figure>
       <ul class="stage-list">
         <li class="stage-item">
           <div class="stage-day">Day 1</div>
