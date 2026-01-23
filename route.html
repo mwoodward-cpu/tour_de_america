@@ -103,6 +103,89 @@
       object-fit: contain;
     }
     a { color: var(--accent); }
+
+    .stage-list {
+      list-style: none;
+      padding: 0;
+      margin: 14px 0 0;
+      display: grid;
+      gap: 12px;
+    }
+
+    .stage-item {
+      border-radius: 14px;
+      padding: 14px 16px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(15, 31, 42, 0.7);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    }
+
+    .stage-item.rest-day {
+      background: rgba(45, 212, 191, 0.12);
+      border-color: rgba(45, 212, 191, 0.35);
+    }
+
+    .stage-day {
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      color: var(--accent);
+    }
+
+    .stage-route {
+      margin: 6px 0 4px;
+      font-weight: 700;
+    }
+
+    .stage-meta {
+      color: var(--muted);
+      margin: 0 0 8px;
+      font-size: 14px;
+    }
+
+    .stage-note {
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    .elevation-figure {
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: 14px;
+      background: rgba(8, 19, 27, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .elevation-figure h3 {
+      margin: 0 0 6px;
+      font-size: 20px;
+    }
+
+    .elevation-caption {
+      color: var(--muted);
+      font-size: 13px;
+      margin: 0 0 12px;
+    }
+
+    .elevation-svg {
+      width: 100%;
+      height: 180px;
+      display: block;
+    }
+
+    .elevation-axis {
+      stroke: rgba(255, 255, 255, 0.2);
+      stroke-width: 1;
+    }
+
+    .elevation-line {
+      fill: none;
+      stroke: url(#elevGradient);
+      stroke-width: 3;
+    }
+
+    .elevation-area {
+      fill: rgba(45, 212, 191, 0.12);
+    }
   </style>
 </head>
 <body>
@@ -119,17 +202,161 @@
       <p class="subtitle">Honoring those we’ve lost, the resilience they taught us, and the determination to ride on.</p>
     </header>
     <div class="card">
-      <h2 class="accent">Route overview</h2>
-      <ul>
-        <li>Start: Northern New Mexico in May 2026.</li>
-        <li>Climb into Colorado, then north through Wyoming and up to Montana's big skies.</li>
-        <li>Cut down through Idaho and Utah, rolling red rock and river valleys.</li>
-        <li>Finish: Cottonwood, Arizona—celebrating together.</li>
+      <h2 class="accent">Daily stages</h2>
+      <ul class="stage-list">
+        <li class="stage-item">
+          <div class="stage-day">Day 1</div>
+          <div class="stage-route">White Rock, NM → Alamosa, CO</div>
+          <div class="stage-meta">131 miles</div>
+          <p class="stage-note">Elevation: Long gradual climbing, high-desert rollers, finishing at altitude (~7,500 ft).</p>
+        </li>
+        <li class="stage-item">
+          <div class="stage-day">Day 2</div>
+          <div class="stage-route">Alamosa, CO → Salida, CO</div>
+          <div class="stage-meta">82 miles</div>
+          <p class="stage-note">Elevation: Sustained mountain climbing, major pass crossing, high alpine terrain.</p>
+        </li>
+        <li class="stage-item">
+          <div class="stage-day">Day 3</div>
+          <div class="stage-route">Salida, CO → Breckenridge, CO</div>
+          <div class="stage-meta">80 miles</div>
+          <p class="stage-note">Elevation: Heavy climbing all day, multiple passes, high-elevation finish (~9,600 ft).</p>
+        </li>
+        <li class="stage-item">
+          <div class="stage-day">Day 4</div>
+          <div class="stage-route">Breckenridge, CO → Estes Park, CO</div>
+          <div class="stage-meta">124 miles</div>
+          <p class="stage-note">Elevation: Extremely demanding — long climbs, long descents, cumulative fatigue day.</p>
+        </li>
+        <li class="stage-item">
+          <div class="stage-day">Day 5</div>
+          <div class="stage-route">Estes Park, CO → Centennial, WY</div>
+          <div class="stage-meta">133 miles</div>
+          <p class="stage-note">Elevation: Mountain exit, rolling high plains, deceptive elevation gain.</p>
+        </li>
+        <li class="stage-item">
+          <div class="stage-day">Day 6</div>
+          <div class="stage-route">Centennial, WY → Rawlins, WY</div>
+          <div class="stage-meta">102 miles</div>
+          <p class="stage-note">Elevation: Wind-exposed rollers, steady climbing, mentally taxing terrain.</p>
+        </li>
+        <li class="stage-item">
+          <div class="stage-day">Day 7</div>
+          <div class="stage-route">Rawlins, WY → Lander, WY</div>
+          <div class="stage-meta">125 miles</div>
+          <p class="stage-note">Elevation: Long gradual climbs, open Wyoming basins, constant elevation change.</p>
+        </li>
+        <li class="stage-item rest-day">
+          <div class="stage-day">Day 8 — REST DAY</div>
+          <div class="stage-route">Lander, WY</div>
+          <p class="stage-note">Elevation: Rest, recovery, and resupply.</p>
+        </li>
+        <li class="stage-item">
+          <div class="stage-day">Day 9</div>
+          <div class="stage-route">Lander, WY → Thermopolis, WY</div>
+          <div class="stage-meta">80 miles</div>
+          <p class="stage-note">Elevation: Net downhill with canyon riding, fast and scenic recovery-style day.</p>
+        </li>
+        <li class="stage-item">
+          <div class="stage-day">Day 10</div>
+          <div class="stage-route">Thermopolis, WY → Lovell, WY</div>
+          <div class="stage-meta">102 miles</div>
+          <p class="stage-note">Elevation: Rolling terrain, moderate climbs, heat exposure possible.</p>
+        </li>
+        <li class="stage-item">
+          <div class="stage-day">Day 11</div>
+          <div class="stage-route">Lovell, WY → Big Timber, MT</div>
+          <div class="stage-meta">130 miles</div>
+          <p class="stage-note">Elevation: Long-distance endurance day, steady rollers, cumulative fatigue.</p>
+        </li>
+        <li class="stage-item">
+          <div class="stage-day">Day 12</div>
+          <div class="stage-route">Big Timber, MT → McAllister, MT</div>
+          <div class="stage-meta">106 miles</div>
+          <p class="stage-note">Elevation: Mountain foothills, sustained climbs, technical terrain.</p>
+        </li>
+        <li class="stage-item">
+          <div class="stage-day">Day 13</div>
+          <div class="stage-route">McAllister, MT → Ashton, ID</div>
+          <div class="stage-meta">107 miles</div>
+          <p class="stage-note">Elevation: High-elevation plateau riding, long steady climbs, thin air.</p>
+        </li>
+        <li class="stage-item">
+          <div class="stage-day">Day 14</div>
+          <div class="stage-route">Ashton, ID → Alpine, WY</div>
+          <div class="stage-meta">100 miles</div>
+          <p class="stage-note">Elevation: Mountain corridors, continuous climbing, scenic but demanding.</p>
+        </li>
+        <li class="stage-item">
+          <div class="stage-day">Day 15</div>
+          <div class="stage-route">Alpine, WY → Garden City (Bear Lake), UT</div>
+          <div class="stage-meta">112 miles</div>
+          <p class="stage-note">Elevation: Major mountain passes, big sustained climbs, iconic day.</p>
+        </li>
+        <li class="stage-item rest-day">
+          <div class="stage-day">Day 16 — REST DAY</div>
+          <div class="stage-route">Garden City (Bear Lake), UT</div>
+          <p class="stage-note">Elevation: Rest, recovery, and resupply.</p>
+        </li>
+        <li class="stage-item">
+          <div class="stage-day">Day 17</div>
+          <div class="stage-route">Garden City, UT → Park City, UT</div>
+          <div class="stage-meta">123 miles</div>
+          <p class="stage-note">Elevation: Very challenging — multiple long climbs, high-elevation finish.</p>
+        </li>
+        <li class="stage-item">
+          <div class="stage-day">Day 18</div>
+          <div class="stage-route">Park City, UT → Mount Pleasant, UT</div>
+          <div class="stage-meta">102 miles</div>
+          <p class="stage-note">Elevation: Mountain descent into rolling valleys, mixed climbing.</p>
+        </li>
+        <li class="stage-item">
+          <div class="stage-day">Day 19</div>
+          <div class="stage-route">Mount Pleasant, UT → Marysvale, UT</div>
+          <div class="stage-meta">99 miles</div>
+          <p class="stage-note">Elevation: Serious climbing through central Utah, remote terrain.</p>
+        </li>
+        <li class="stage-item">
+          <div class="stage-day">Day 20</div>
+          <div class="stage-route">Marysvale, UT → Kanab, UT</div>
+          <div class="stage-meta">115 miles</div>
+          <p class="stage-note">Elevation: Long desert climbs, heat + elevation combination.</p>
+        </li>
+        <li class="stage-item">
+          <div class="stage-day">Day 21</div>
+          <div class="stage-route">Kanab, UT → Page, AZ</div>
+          <div class="stage-meta">74 miles</div>
+          <p class="stage-note">Elevation: Rolling desert terrain, shorter mileage, strategic recovery day.</p>
+        </li>
+        <li class="stage-item">
+          <div class="stage-day">Day 22</div>
+          <div class="stage-route">Page, AZ → Flagstaff, AZ</div>
+          <div class="stage-meta">129 miles</div>
+          <p class="stage-note">Elevation: Massive sustained climb — desert to mountains, brutal and iconic.</p>
+        </li>
+        <li class="stage-item">
+          <div class="stage-day">Day 23</div>
+          <div class="stage-route">Flagstaff, AZ → Clarkdale, AZ</div>
+          <div class="stage-meta">80 miles</div>
+          <p class="stage-note">Elevation: Long descent, technical riding, emotional finish.</p>
+        </li>
       </ul>
-      <p>Ride tracker and meetups will be posted before launch. Join us for a segment or cheer from afar.</p>
-      <div class="route-hero">
-        <img src="photo4.jpg" alt="Route scenery">
-      </div>
+
+      <figure class="elevation-figure">
+        <h3 class="accent">Elevation gain profile</h3>
+        <p class="elevation-caption">Simplified profile over 23 days (rest days dip to baseline).</p>
+        <svg class="elevation-svg" viewBox="0 0 460 160" role="img" aria-label="Elevation gain profile over 23 days">
+          <defs>
+            <linearGradient id="elevGradient" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stop-color="#f4a261"/>
+              <stop offset="100%" stop-color="#2dd4bf"/>
+            </linearGradient>
+          </defs>
+          <path class="elevation-area" d="M20 140 L20 100 L38 86 L56 66 L74 50 L92 50 L110 100 L128 100 L146 100 L164 120 L182 110 L200 100 L218 100 L236 86 L254 86 L272 140 L290 50 L308 110 L326 86 L344 86 L362 110 L380 50 L398 110 L416 110 L440 140 Z"/>
+          <polyline class="elevation-line" points="20,100 38,86 56,66 74,50 92,50 110,100 128,100 146,100 164,120 182,110 200,100 218,100 236,100 254,86 272,86 290,140 308,50 326,110 344,86 362,86 380,110 398,50 416,110 440,110" />
+          <line class="elevation-axis" x1="20" y1="140" x2="440" y2="140" />
+        </svg>
+      </figure>
     </div>
   </div>
   <script>
