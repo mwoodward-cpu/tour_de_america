@@ -85,7 +85,7 @@
     }
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      grid-template-columns: 1fr;
       gap: 14px;
       margin-top: 14px;
     }
@@ -98,6 +98,39 @@
       box-shadow: var(--shadow);
       border: 1px solid rgba(255,255,255,0.08);
       background: rgba(8, 19, 27, 0.6);
+      cursor: zoom-in;
+      transition: transform 160ms ease;
+    }
+
+    img:hover {
+      transform: scale(1.01);
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 10, 14, 0.9);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      z-index: 999;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox img {
+      width: auto;
+      height: auto;
+      max-width: 96vw;
+      max-height: 90vh;
+      object-fit: contain;
+      border-radius: 14px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      cursor: zoom-out;
     }
     a { color: var(--accent); }
     .subtitle.names {
@@ -139,6 +172,9 @@
       </ul>
     </div>
   </div>
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <img id="lightbox-image" alt="">
+  </div>
   <script>
     const launchDate = new Date("2026-05-01T00:00:00");
 
@@ -161,6 +197,24 @@
 
     updateCountdown();
     setInterval(updateCountdown, 1000);
+
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImage = document.getElementById("lightbox-image");
+    const galleryImages = document.querySelectorAll(".grid img");
+
+    galleryImages.forEach((img) => {
+      img.addEventListener("click", () => {
+        lightboxImage.src = img.src;
+        lightboxImage.alt = img.alt || "Expanded photo";
+        lightbox.classList.add("active");
+        lightbox.setAttribute("aria-hidden", "false");
+      });
+    });
+
+    lightbox.addEventListener("click", () => {
+      lightbox.classList.remove("active");
+      lightbox.setAttribute("aria-hidden", "true");
+    });
   </script>
 </body>
 </html>
